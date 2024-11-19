@@ -54,7 +54,7 @@ export const SelectedMeals = () => {
         <h1 className="text-2xl mb-4">No Meals selected</h1>
         <button
           onClick={() => navigate('/')}
-          className="px-4 py-2 bg-blue-500 text-white rounded-md"
+          className="px-4 py-2 border-2 border-gray-200 rounded-md hover:bg-gray-200"
         >
           Browse Meals
         </button>

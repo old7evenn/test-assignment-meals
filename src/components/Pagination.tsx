@@ -10,39 +10,24 @@ export const Pagination: React.FC<PaginationProps> = ({
   onPageChange,
 }) => {
   const getPageNumbers = () => {
-    if (totalPages <= 7) {
-      return Array.from({ length: totalPages }, (_, i) => i + 1);
-    }
+    const range = (start: number, end: number) =>
+      Array.from({ length: end - start + 1 }, (_, i) => start + i);
 
-    if (currentPage <= 4) {
-      return [1, 2, 3, 4, 5, 6, 7, '...', totalPages];
-    }
+    if (totalPages <= 7) return range(1, totalPages);
 
-    if (currentPage >= totalPages - 3) {
-      return [
-        1,
-        '...',
-        totalPages - 6,
-        totalPages - 5,
-        totalPages - 4,
-        totalPages - 3,
-        totalPages - 2,
-        totalPages - 1,
-        totalPages,
-      ];
-    }
+    const showLeftEllipsis = currentPage > 4;
+    const showRightEllipsis = currentPage < totalPages - 3;
 
-    return [
-      1,
-      '...',
-      currentPage - 2,
-      currentPage - 1,
-      currentPage,
-      currentPage + 1,
-      currentPage + 2,
-      '...',
-      totalPages,
-    ];
+    const leftPart = showLeftEllipsis ? [1, '...'] : range(1, 7);
+    const middlePart =
+      showLeftEllipsis && showRightEllipsis
+        ? range(currentPage - 2, currentPage + 2)
+        : [];
+    const rightPart = showRightEllipsis
+      ? ['...', totalPages]
+      : range(totalPages - 4, totalPages);
+
+    return [...leftPart, ...middlePart, ...rightPart];
   };
 
   return (

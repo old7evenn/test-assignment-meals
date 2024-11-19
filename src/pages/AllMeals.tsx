@@ -3,7 +3,7 @@ import { MealCard } from '@components/MealCard';
 import { Pagination } from '@components/Pagination';
 import { SearchBar } from '@components/SearchBar';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useDebounce } from '../hooks/useDebounce';
 import { Meal } from '../types/mealTypes';
@@ -28,12 +28,17 @@ export const AllMeals = () => {
     queryFn: () => fetchAllMeals(debouncedSearch),
   });
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [data]);
+
   const filteredMeals =
     data?.meals?.filter(
       meal => !selectedCategory || meal.strCategory === selectedCategory
     ) ?? [];
 
   const totalPages = Math.ceil(filteredMeals.length / ITEMS_PER_PAGE);
+
   const paginatedMeals = filteredMeals.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
