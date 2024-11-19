@@ -30,7 +30,7 @@ export const AllMeals = () => {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [data]);
+  }, [data, selectedCategory]);
 
   const filteredMeals =
     data?.meals?.filter(
